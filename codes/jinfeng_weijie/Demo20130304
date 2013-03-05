@@ -57,7 +57,7 @@ public class Demo {
 
 		int i = 1;
 		for (String asd : list) {
-			System.out.println(i++ + " : " + asd);
+			System.out.println(i++ + " - " + asd);
 		}
 	}
 }
