@@ -1,0 +1,121 @@
+package haha;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Demo1 {
+
+  /**
+	 * @param args
+	 * @throws IOException
+	 */
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+
+		FileInputStream file = new FileInputStream("ad.txt");
+		InputStreamReader read = new InputStreamReader(file, "utf-8");
+		BufferedReader bufferedReader = new BufferedReader(read);
+		String lineTXT = null;
+		String str = null;
+		while ((lineTXT = bufferedReader.readLine()) != null) {
+			str = str + lineTXT.toString().trim();
+		}
+		read.close();
+		String regEx = "([\u4e00-\u9fa5]+)";
+
+		Pattern pattern = Pattern.compile(regEx);
+		Matcher matcher = pattern.matcher(str);
+		String cfString = "";
+		while (matcher.find()) {
+			if (!cfString.contains(matcher.group())) {
+				cfString = cfString + matcher.group();
+			}
+		}
+
+		// //////////////////////
+
+		String temp = cfString;
+		HashMap<String, Integer> mymap = new HashMap<String, Integer>();
+		for (int i = 0; i < temp.length(); ++i) {
+			String s = temp.substring(i, i + 1);
+			// System.out.println(s);
+			if (!mymap.containsKey(s))
+				mymap.put(s, 1);
+			else
+				mymap.put(s, mymap.get(s) + 1);
+		}
+		for (String s : mymap.keySet())
+			System.out.println(s + ":" + mymap.get(s));
+
+		
+		HashMap<String, Integer> mymap2 = new HashMap<String, Integer>();
+		for (int i = 0; i < temp.length() - 1; ++i) {
+			String s = temp.substring(i, i + 1) + temp.substring(i + 1, i + 2);
+			// System.out.println(s);
+			if (!mymap2.containsKey(s))
+				mymap2.put(s, 1);
+			else
+				mymap2.put(s, mymap2.get(s) + 1);
+		}
+		for (String s : mymap2.keySet())
+			System.out.println(s + ":" + mymap2.get(s));
+		
+
+		// //////////////////////
+
+		int sum = temp.length();
+		TreeMap<String, Double> ad = new TreeMap<String, Double>();
+
+		for (String s : mymap2.keySet()) {
+
+			String a1 = s.substring(0, 1);
+			String a2 = s.substring(1, 2);
+
+			int c0 = mymap2.get(s);
+			int c1 = mymap.get(a1);
+			int c2 = mymap.get(a2);
+
+			double result = new Double(c0) / new Double(c1) / new Double(c2)
+					* sum;
+			System.out.println(s + ":" + result);
+
+			ad.put(s, result);
+		}
+
+		for (String s : ad.keySet()) {
+			System.out.println(s + ":" + mymap2.get(s));
+		}
+
+		TreeMap<String, Double> keyfreqs = ad;
+		
+		
+		////////////////////////////////////////
+		ArrayList<Entry<String, Double>> l = new ArrayList<Entry<String, Double>>(
+				keyfreqs.entrySet());
+
+		Collections.sort(l, new Comparator<Map.Entry<String, Double>>() {
+			public int compare(Map.Entry<String, Double> o1,
+					Map.Entry<String, Double> o2) {
+				return (o2.getValue() > o1.getValue() ? 0 : 1);
+			}
+
+		});
+
+		for (Entry<String, Double> e : l) {
+			System.out.println(e.getKey() + " : " + e.getValue());
+		}
+
+	}
+
+}
