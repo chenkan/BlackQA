@@ -1,0 +1,17 @@
+https://github.com/diamondfang/test/wiki下有OpenStack测试覆盖率的统计信息，其格式为“文件名 代码行数 未覆盖行数 excluded 覆盖率百分比”（excluded都为0）。请编写程序，从github下载这些信息，并统计/opt/stack/nova模块下的覆盖率，输出格式为“代码总行数 未覆盖总行数 覆盖率百分比”。
+
+例如：
+当前覆盖率数据为：
+Module                                   statements   missing   excluded   coverage
+/opt/stack/glance/bin/glance-api             26          7          0         73%
+/opt/stack/glance/bin/glance-registry        20          3          0         85%
+...
+/opt/stack/keystone/bin/keystone-all         61          15         0         75%
+/opt/stack/keystone/keystone/__init__        0           0          0         100%
+...
+/opt/stack/nova/bin/nova-api                 21          1          0         95%
+/opt/stack/nova/bin/nova-compute             19          3          0         84%
+...
+
+请只统计/opt/stack/nova下面的覆盖率数据，输出总的数据，例如输出“Total 42602 23920 44%”（代码总行数 未覆盖总行数 覆盖率百分比）。
+
