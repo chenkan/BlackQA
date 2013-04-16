@@ -1,0 +1,28 @@
+import urllib
+import re
+urlItem = urllib.urlopen("https://github.com/diamondfang/test/wiki")
+htmSource = urlItem.read()
+#print htmSource
+fileh=open('d:/test','w')
+fileh.write(htmSource)
+fileh.close()
+urlItem.close()
+
+f = open("d:/test")            
+line = f.readline()
+cov=0
+miss=0
+while line:
+    line = f.readline()
+    m = re.match('.*<li><p>/opt/stack/nova.*', line)  
+    if m:  
+        #print m.group(0), '/n'
+        line1=m.group(0)
+        n1 = re.findall('\s+(\d+)', line1)
+        if n1:
+            cov=cov+int(n1[0])
+            miss=miss+int(n1[1])
+   
+print cov
+print miss
+f.close()
